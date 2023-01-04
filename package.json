@@ -1,10 +1,10 @@
 {
-  "name": "api.letzhike.a8z",
+  "name": "api.bootprints.a8z",
   "version": "1.0.0-alpha.0",
-  "description": "Rest API service for the LetzHike app.",
-  "homepage": "https://a8z.lu/app/letzhike",
-  "repository": "gitlab:andyfrantz/contactsly",
-  "bugs": "https://gitlab.com/andyfrantz/letzhike-api/-/issues",
+  "description": "Rest API service for the bootprints app.",
+  "homepage": "https://a8z.lu/app/bootprints",
+  "repository": "github:andyfrantz/bootprints-api-server",
+  "bugs": "https://github.com/andyfrantz/bootprints-api-server/issues",
   "scripts": {
     "start": "node server.js",
     "start:dev": "nodemon server.js"
