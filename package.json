@@ -1,0 +1,36 @@
+{
+  "name": "api.letzhike.a8z",
+  "version": "1.0.0-alpha.0",
+  "description": "Rest API service for the LetzHike app.",
+  "homepage": "https://a8z.lu/app/letzhike",
+  "repository": "gitlab:andyfrantz/contactsly",
+  "bugs": "https://gitlab.com/andyfrantz/letzhike-api/-/issues",
+  "scripts": {
+    "start": "node server.js",
+    "start:dev": "nodemon server.js"
+  },
+  "keywords": [
+    "rest",
+    "api",
+    "backend"
+  ],
+  "author": "Andy Frantz <ndfrntz@gmail.com>",
+  "license": "MIT",
+  "funding": {
+    "type": "ko-fi",
+    "url": "ko-fi.com/ndfrntz"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "helmet": "^5.0.2",
+    "mongoose": "^6.3.3",
+    "mongoose-unique-validator": "^3.0.0",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
