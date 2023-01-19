@@ -2,13 +2,15 @@ const mongoose = require('mongoose');
 
 class MongoDbService {
   connect(dsn) {
-    mongoose.connect(dsn, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }).catch((err) => {
-      // eslint-disable-next-line no-console
-      console.log(err);
-    });
+    mongoose
+      .connect(dsn, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.log(err);
+      });
 
     this.db = mongoose.connection;
 
