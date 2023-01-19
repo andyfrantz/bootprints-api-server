@@ -1,10 +1,10 @@
 const express = require('express');
 
 const {
-    getStatusHandler,
-    headStatusHandler,
-    getInfoHandler,
-    getMetricsHandler,
+  getStatusHandler,
+  headStatusHandler,
+  getInfoHandler,
+  getMetricsHandler,
 } = require('../controllers/health.controller');
 
 const router = express.Router();

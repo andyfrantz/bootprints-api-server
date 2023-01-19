@@ -1,11 +1,11 @@
 const {
-    createPath,
-    deletePath,
-    getPath,
-    findPaths,
-    updatePath,
+  createPath,
+  deletePath,
+  getPath,
+  findPaths,
+  updatePath,
 } = require('../services/path.service');
-const {ApiError} = require("../errors");
+const { ApiError } = require('../errors');
 
 /**
  * Handle get all Paths request.
@@ -14,12 +14,12 @@ const {ApiError} = require("../errors");
  * @param {ServerResponse} res
  */
 exports.getAllPathsHandler = (req, res) => {
-    findPaths()
-        .then((documents) => {
-            res.status(200).json({
-                paths: documents,
-            });
-        });
+  findPaths()
+    .then((documents) => {
+      res.status(200).json({
+        paths: documents,
+      });
+    });
 };
 
 /**
@@ -30,15 +30,15 @@ exports.getAllPathsHandler = (req, res) => {
  * @param {function} next
  */
 exports.getPathHandler = (req, res, next) => {
-    getPath(req.params.id)
-        .then((path) => {
-            if (path) {
-                res.status(200).json(path);
-            } else {
-                next(new ApiError(404, 'Path not found!'));
-            }
-        }).catch(() => {
-            next(new ApiError(422, 'Bad object id format'));
+  getPath(req.params.id)
+    .then((path) => {
+      if (path) {
+        res.status(200).json(path);
+      } else {
+        next(new ApiError(404, 'Path not found!'));
+      }
+    }).catch(() => {
+      next(new ApiError(422, 'Bad object id format'));
     });
 };
 
@@ -50,19 +50,19 @@ exports.getPathHandler = (req, res, next) => {
  * @param {function} next
  */
 exports.createPathHandler = (req, res, next) => {
-    const reqBody = req.body;
+  const reqBody = req.body;
 
-    createPath({ ...reqBody })
-        .save()
-        .then((createdPath) => {
-            res.status(201).json({
-                message: 'Path created successfully',
-                path: createdPath,
-            });
-        })
-        .catch(() => {
-            next(new ApiError(500, 'Creating a Path failed!'));
-        });
+  createPath({ ...reqBody })
+    .save()
+    .then((createdPath) => {
+      res.status(201).json({
+        message: 'Path created successfully',
+        path: createdPath,
+      });
+    })
+    .catch(() => {
+      next(new ApiError(500, 'Creating a Path failed!'));
+    });
 };
 
 /**
@@ -72,9 +72,9 @@ exports.createPathHandler = (req, res, next) => {
  * @param {ServerResponse} res
  */
 exports.deletePathHandler = (req, res) => {
-    deletePath(req.params.id).then(() => {
-        res.status(200).json({ message: 'Post deleted!' });
-    });
+  deletePath(req.params.id).then(() => {
+    res.status(200).json({ message: 'Post deleted!' });
+  });
 };
 
 /**
@@ -84,9 +84,9 @@ exports.deletePathHandler = (req, res) => {
  * @param {ServerResponse} res
  */
 exports.updatePathHandler = (req, res) => {
-    const reqBody = req.body;
+  const reqBody = req.body;
 
-    updatePath(req.params.id, { ...reqBody }).then(() => {
-        res.status(200).json({ message: 'Path updated!' });
-    });
+  updatePath(req.params.id, { ...reqBody }).then(() => {
+    res.status(200).json({ message: 'Path updated!' });
+  });
 };

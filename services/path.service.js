@@ -20,7 +20,6 @@ exports.getPath = (id) => PathModel.findById(id);
 
 exports.findPaths = (query = {}) => PathModel.find(query);
 
-
 /**
  * Update a path.
  *

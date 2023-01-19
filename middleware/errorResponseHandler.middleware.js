@@ -2,9 +2,10 @@
 // and sends back a response in JSON format
 
 module.exports = (err, req, res, next) => {
-    void next;
+  // eslint-disable-next-line no-void
+  void next;
 
-    res.status(err.statusCode || 500).json({
-        message: err.message
-    });
+  res.status(err.statusCode || 500).json({
+    message: err.message,
+  });
 };

@@ -8,18 +8,18 @@ const MongoDbService = require('../services/mongodb.service');
  * @param {ServerResponse} res
  */
 exports.getStatusHandler = (req, res) => {
-    const { readyState } = MongoDbService.db;
-    const sCode = readyState === 1 ? 200 : 500;
-    let message = 'SERVICE_IS_READY';
-    if (readyState === 0 || readyState === 3) {
-        message = 'DATABASE_CONNECTION_LOST';
-    } else if (readyState === 2) {
-        message = 'DATABASE_CONNECTION_NOT_READY';
-    }
+  const { readyState } = MongoDbService.db;
+  const sCode = readyState === 1 ? 200 : 500;
+  let message = 'SERVICE_IS_READY';
+  if (readyState === 0 || readyState === 3) {
+    message = 'DATABASE_CONNECTION_LOST';
+  } else if (readyState === 2) {
+    message = 'DATABASE_CONNECTION_NOT_READY';
+  }
 
-    res.status(sCode).json({
-        message,
-    });
+  res.status(sCode).json({
+    message,
+  });
 };
 
 /**
@@ -29,7 +29,7 @@ exports.getStatusHandler = (req, res) => {
  * @param {ServerResponse} res
  */
 exports.headStatusHandler = (req, res) => {
-    res.status(200).end();
+  res.status(200).end();
 };
 
 /**
@@ -39,10 +39,10 @@ exports.headStatusHandler = (req, res) => {
  * @param {ServerResponse} res
  */
 exports.getInfoHandler = (req, res) => {
-    res.status(200).json({
-        name: apiApp.name,
-        version: apiApp.version,
-    });
+  res.status(200).json({
+    name: apiApp.name,
+    version: apiApp.version,
+  });
 };
 
 /**
@@ -52,8 +52,8 @@ exports.getInfoHandler = (req, res) => {
  * @param {ServerResponse} res
  */
 exports.getMetricsHandler = (req, res) => {
-    res.status(200).json({
-        mem: process.memoryUsage(),
-        uptime: process.uptime(),
-    });
+  res.status(200).json({
+    mem: process.memoryUsage(),
+    uptime: process.uptime(),
+  });
 };
