@@ -10,8 +10,8 @@ const { ApiError } = require('../errors');
 /**
  * Handle get all Paths request.
  *
- * @param {IncomingMessage} req
- * @param {ServerResponse} res
+ * @param {e.Request} req
+ * @param {e.Response} res
  */
 exports.getAllPathsHandler = (req, res) => {
   findPaths()
@@ -25,9 +25,9 @@ exports.getAllPathsHandler = (req, res) => {
 /**
  * Handle fetch signle Path request.
  *
- * @param {IncomingMessage} req
- * @param {ServerResponse} res
- * @param {function} next
+ * @param {e.Request} req
+ * @param {e.Response} res
+ * @param {e.NextFunction} next
  */
 exports.getPathHandler = (req, res, next) => {
   getPath(req.params.id)
@@ -45,15 +45,14 @@ exports.getPathHandler = (req, res, next) => {
 /**
  * Handle create Path request.
  *
- * @param {IncomingMessage} req
- * @param {ServerResponse} res
- * @param {function} next
+ * @param {e.Request} req
+ * @param {e.Response} res
+ * @param {e.NextFunction} next
  */
 exports.createPathHandler = (req, res, next) => {
   const reqBody = req.body;
 
   createPath({ ...reqBody })
-    .save()
     .then((createdPath) => {
       res.status(201).json({
         message: 'Path created successfully',
@@ -68,8 +67,8 @@ exports.createPathHandler = (req, res, next) => {
 /**
  * Handle delete Path request.
  *
- * @param {IncomingMessage} req
- * @param {ServerResponse} res
+ * @param {e.Request} req
+ * @param {e.Response} res
  */
 exports.deletePathHandler = (req, res) => {
   deletePath(req.params.id).then(() => {
@@ -80,8 +79,8 @@ exports.deletePathHandler = (req, res) => {
 /**
  * Handle update Path request.
  *
- * @param {IncomingMessage} req
- * @param {ServerResponse} res
+ * @param {e.Request} req
+ * @param {e.Response} res
  */
 exports.updatePathHandler = (req, res) => {
   const reqBody = req.body;
