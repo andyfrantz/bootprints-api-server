@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
  * Validate if the request parameter is given and of correct type.
  */
 module.exports = (req, res, next) => {
-  if (req.params.id instanceof mongoose.Types.ObjectId) {
+  if (mongoose.isValidObjectId(req.params.id)) {
     next();
   } else {
     res.status(422).json({

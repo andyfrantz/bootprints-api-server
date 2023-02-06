@@ -1,12 +1,13 @@
-const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const {
   createUser,
-  getUserByEmail
+  getUserByEmail,
+  getUser,
 } = require('../services/user.service');
 const { ApiError } = require('../errors');
 const ConfigService = require('../services/configuration.service');
+const convertToSeconds = require('../utils/convertToSeconds');
 
 /**
  * Handle create User request.
@@ -32,38 +33,71 @@ exports.createUserHandler = (req, res, next) => {
     });
 };
 
-exports.authenticate = (req, res) => {
-  let fetchedUser;
-  User.findOne({ email: req.body.email })
-    .then(user => {
-      if (!user) {
-        return res.status(402).json({
-          message: "Auth failed"
-        });
-      }
-      fetchedUser = user;
-      return bcrypt.compare(req.body.password, user.password);
-    })
-    .then(result => {
-      if (!result) {
-        return res.status(401).json({
-          message: "Auth failed"
-        });
-      }
-      const token = jwt.sign(
-        { email: fetchedUser.email, userId: fetchedUser._id },
-        ConfigService.JWT_KEY,
-        { expiresIn: ConfigService.JWT_EXPIRATION_TIME }
-      );
-      res.status(200).json({
-        token: token,
-        expiresIn: 3600,
-        userId: fetchedUser._id
+/**
+ * Handle authenticate User request.
+ *
+ * @param {e.Request} req
+ * @param {e.Response} res
+ * @param {e.NextFunction} next
+ */
+exports.authenticateUserHandler = (req, res, next) => {
+  const { email, password } = req.body;
+
+  if (!!email && !!password) {
+    let fetchedUser;
+    getUserByEmail(email)
+      .then((user) => {
+        if (user) {
+          fetchedUser = user;
+          return user.verifyPassword(password);
+        }
+        throw new ApiError(402, 'Auth failed');
+      })
+      .then((valid) => {
+        if (valid) {
+          // eslint-disable-next-line no-underscore-dangle
+          const userId = fetchedUser._id;
+          const token = jwt.sign(
+            { email: fetchedUser.email, userId },
+            ConfigService.JWT_KEY,
+            { expiresIn: ConfigService.JWT_EXPIRATION_TIME },
+          );
+          return res.status(200).json({
+            token,
+            expiresIn: convertToSeconds(ConfigService.JWT_EXPIRATION_TIME),
+            userId,
+          });
+        }
+        throw new ApiError(402, 'Auth failed');
+      })
+      .catch((err) => {
+        let e = err;
+        if (!(err instanceof ApiError)) {
+          e = new ApiError(402, 'Auth failed');
+        }
+        next(e);
       });
-    })
-    .catch(err => {
-      return res.status(401).json({
-        message: "Invalid authentication credentials!",
-      });
+  } else {
+    next(new ApiError(400));
+  }
+};
+
+/**
+ * Handle fetch single User request.
+ *
+ * @param {e.Request} req
+ * @param {e.Response} res
+ * @param {e.NextFunction} next
+ */
+exports.getUserHandler = (req, res, next) => {
+  getUser(req.params.id)
+    .then((path) => {
+      if (path) {
+        res.status(200).json(path);
+      } else {
+        next(new ApiError(404, 'User not found!'));
+      }
+    }).catch(() => {
+      next(new ApiError(422, 'Bad object id format'));
     });
-}
+};

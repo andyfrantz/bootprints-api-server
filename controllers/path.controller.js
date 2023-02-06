@@ -23,7 +23,7 @@ exports.getAllPathsHandler = (req, res) => {
 };
 
 /**
- * Handle fetch signle Path request.
+ * Handle fetch single Path request.
  *
  * @param {e.Request} req
  * @param {e.Response} res

@@ -1,41 +1,15 @@
 const express = require('express');
 
+const validateObjectId = require('../../middleware/validateObjectId.middleware');
+const validAuthentication = require('../../middleware/authentication.middleware');
 const {
   createUserHandler,
+  getUserHandler,
 } = require('../../controllers/user.controller');
 
 const router = express.Router();
 
 router.post('/signup', createUserHandler);
-
-router.get('/:userId', (req, res) => {
-  res.status(200).json({
-    message: 'User details',
-  });
-});
-
-router.patch('/:userId', (req, res) => {
-  res.status(200).json({
-    message: 'User updated',
-  });
-});
-
-router.post('/:userId', (req, res) => {
-  res.status(200).json({
-    message: 'User created',
-  });
-});
-
-router.delete('/:userId', (req, res) => {
-  res.status(200).json({
-    message: 'User deleted',
-  });
-});
-
-router.post('/lostPassword', (req, res) => {
-  res.status(200).json({
-    message: 'Request pw reset',
-  });
-});
+router.get('/:id', validAuthentication, validateObjectId, getUserHandler);
 
 module.exports = router;

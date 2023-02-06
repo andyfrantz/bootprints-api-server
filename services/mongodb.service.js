@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 class MongoDbService {
   connect(dsn) {
+    mongoose.set('strictQuery', false);
     mongoose
       .connect(dsn, {
         useNewUrlParser: true,
